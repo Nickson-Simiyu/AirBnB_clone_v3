@@ -6,6 +6,10 @@ from models.base_model import BaseModel
 from flask import Flask, abort, jsonify, make_response, request
 from api.v1.views import app_views
 import models
+from models import storage, city, state
+
+
+app = Flask(__name__)
 
 
 @app_views.route("/states/<state_id>/cities", methods=["GET"],
