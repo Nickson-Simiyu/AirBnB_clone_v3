@@ -1,8 +1,11 @@
 #!/usr/bin/python3
 """Index model holds the endpoint (route)"""
 from api.v1.views import app_views
-from flask import jsonify
+from flask import Flask, jsonify
 from models import storage
+
+
+app = Flask(__name__)
 
 
 @app_views.route('/status')
