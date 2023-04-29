@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""blueprint that returns a JSON"""
+"""
+Blueprint that returns a JSON
+"""
 from api.v1.views import app_views, storage
 from flask import jsonify
 
