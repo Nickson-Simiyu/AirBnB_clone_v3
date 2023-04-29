@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 """Index model holds the endpoint (route)"""
-import sys
-sys.path.append('.')
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
