@@ -1,22 +1,33 @@
 #!/usr/bin/python3
-"""create the Flask app instance"""
-
-from flask import Flask
-from models import storage
+"""endpoint (route) will be to return the status of your API"""
 from api.v1.views import app_views
+from flasgger import Swagger
+from flask import (Blueprint, Flask, jsonify, make_response)
+from flask_cors import (CORS, cross_origin)
+from models import storage
+from os import getenv
 
 
 app = Flask(__name__)
-app.register_blueprint(app_views, url_prefix='/api/v1')
+CORS(app, origins="0.0.0.0")
+app.register_blueprint(app_views)
+Swagger(app)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """json 404 page"""
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app.teardown_appcontext
-def teardown_app_context(exception):
-    """Teardown application context"""
+def teardown(exception):
+    """ closes the session """
     storage.close()
 
 
 if __name__ == "__main__":
-    host = os.environ.get('HBNB_API_HOST', '0.0.0.0')
-    port = os.environ.get('HBNB_API_PORT', 5000)
-    app.run(host=host, port=port, threaded=True)
+    host = getenv("HBNB_API_HOST", "0.0.0.0")
+    port = getenv("HBNB_API_PORT", "5000")
+#    print(app.url_map)
+    app.run(host=host, port=port)
