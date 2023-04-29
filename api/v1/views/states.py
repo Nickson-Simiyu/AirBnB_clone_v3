@@ -15,15 +15,6 @@ def get_all_states():
     return jsonify(states_list)
 
 
-@app_views.route('/states', methods=['GET'], strict_slashes=False)
-def get_states():
-    states = storage.all(State).values()
-    states_list = []
-    for state in states:
-        states_list.append(state.to_dict())
-    return jsonify(states_list)
-
-
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     state = storage.get(State, state_id)
