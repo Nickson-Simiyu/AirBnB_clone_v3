@@ -8,13 +8,13 @@ from models import storage
 app = Flask(__name__)
 
 
-@app_views.route('/status')
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/api/v1/stats', methods=['GET'])
-def get_stats():
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
+def stats():
     """Retrieves the number of each objects by type"""
     stats = {
         "amenities": storage.count("Amenity"),
