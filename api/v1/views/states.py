@@ -53,13 +53,10 @@ def update_state(state_id):
     if state is None:
         abort(404)
     json_data = request.get_json()
-
     if json_data is None:
         abort(400, 'Not a JSON')
-
     for key, value in json_data.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(state, key, value)
-
     storage.save()
-    return make_response(jsonify(state.to_dict()), 200)i
+    return make_response(jsonify(state.to_dict()), 200)
