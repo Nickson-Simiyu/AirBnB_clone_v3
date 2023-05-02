@@ -1,21 +1,33 @@
 #!/usr/bin/python3
-"""Index model holds the endpoint (route)"""
+"""Index views"""
 from api.v1.views import app_views
-from flask import jsonify
+from flask import Flask, Blueprint, jsonify
 from models import storage
 
 
-@app_views.route('/status', methods=['GET'], strict_slashes=False)
-def status():
+stats = {
+    "amenities": "Amenity",
+    "cities": "City",
+    "places": "Place",
+    "reviews": "Review",
+    "states": "State",
+    "users": "User"
+}
+
+
+@app_views.route('/status', strict_slashes=False)
+def status_route():
+    """Status of the web server"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', methods=['GET'], strict_slashes=False)
-def stats():
-    """Retrieves the number of each objects by type"""
-    return jsonify(amenities=storage.count("Amenity"),
-                   cities=storage.count("City"),
-                   places=storage.count("Place"),
-                   reviews=storage.count("Review"),
-                   states=storage.count("State"),
-                   users=storage.count("User"))
+@app_views.route('/stats', strict_slashes=False)
+def stats_route():
+    """Stats"""
+    return_dict = {}
+    for key, value in stats.items():
+        return_dict[key] = storage.count(value)
+    return jsonify(return_dict)
+
+if __name__ == "__main__":
+    pass
